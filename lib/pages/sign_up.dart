@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lookupp/components/signup_button.dart';
 import 'package:lookupp/components/dynamic_textfield.dart';
-import 'package:lookupp/components/login_button.dart';
-import 'package:lookupp/pages/sign_up.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passConfirmController = TextEditingController();
 
-  void signIn() {}
+  void signUp() {}
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,29 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 100),
                   //logo
                   // to be added later, text for now
-                  const Text(
-                    'Lookupp',
+                  Text(
+                    'Sign Up',
                     style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
+                        color: Colors.blue[900]),
+                  ),
+                  const Text(
+                    'for LookUpp',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Create your account",
+                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  ),
 
-                  const SizedBox(height: 75),
+                  const SizedBox(height: 25),
 
                   //email field
                   MyTextField(
@@ -41,7 +55,7 @@ class LoginPage extends StatelessWidget {
                     obscureText: false,
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   //password field
                   MyTextField(
                     controller: passwordController,
@@ -50,24 +64,19 @@ class LoginPage extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 10),
-                  //forgot password
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                      ],
-                    ),
+                  //password field
+                  MyTextField(
+                    controller: passConfirmController,
+                    hintText: 'Confirm Password',
+                    obscureText: true,
                   ),
-
                   const SizedBox(height: 25),
                   //sign in button
-                  MyButton(
-                    onTap: signIn,
+                  SignupButton(
+                    onTap: signUp,
+                    // TODO: have sign up go back to login page
+                    // may be easier to have user sign in after sign up to
+                    // not have to duplicate flow (instructions, etc.)
                   ),
                   const SizedBox(height: 50),
                   //sign up
@@ -75,7 +84,7 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Don\'t have an account?',
+                        'Already have an account?',
                         style: TextStyle(color: Colors.grey[600]),
                       ),
                       TextButton(
@@ -84,13 +93,9 @@ class LoginPage extends StatelessWidget {
                               WidgetStateProperty.all<Color>(Colors.blue),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignupPage()),
-                          );
+                          Navigator.pop(context);
                         },
-                        child: const Text('Sign Up'),
+                        child: const Text('Log In'),
                       ),
                     ],
                   ),
