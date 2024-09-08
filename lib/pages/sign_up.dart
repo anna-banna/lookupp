@@ -126,6 +126,7 @@ class SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 25),
                   //sign in button
+                  //TODO: fix context issue
                   SignupButton(onTap: () => signUp(context)),
                   const SizedBox(height: 50),
                   //sign up
