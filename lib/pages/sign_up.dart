@@ -1,15 +1,69 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lookupp/components/signup_button.dart';
 import 'package:lookupp/components/dynamic_textfield.dart';
+import 'package:lookupp/services/auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+/// This class is a StatelessWidget that builds the UI for the sign up page.
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
+  @override
+  SignupPageState createState() => SignupPageState();
+}
+
+class SignupPageState extends State<SignupPage> {
+  // Initialize text controllers for email, password, and password confirmation.
+  //
+  // These controllers will be used to get the text input from the user.
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passConfirmController = TextEditingController();
 
-  void signUp() {}
+  // Initialize Firebase Auth from AuthService class
+  final AuthService _authService = AuthService();
+
+  /// This function is called when the user taps the sign up button.
+  ///
+  /// It will attempt to sign up the user with the email and password provided.
+  /// If the passwords do not match, a toast will be shown to the user.
+  /// If the sign up is successful, the user will be navigated back to the login page.
+  /// If there is an error during sign up, a toast will be shown to the user.
+  void signUp(BuildContext context) {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String confirmPassword = passConfirmController.text.trim();
+
+    if (password != confirmPassword) {
+      Fluttertoast.showToast(
+          msg: 'Passwords do not match',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 14.0);
+      return;
+    }
+
+    final currentContext = context;
+
+    _authService.signup(email: email, password: password).then((_) {
+      // Use a closure to capture the context
+      if (mounted) {
+        Navigator.pop(currentContext);
+      }
+    }).catchError((e) {
+      Fluttertoast.showToast(
+          msg: 'Error during sign up: $e',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 14.0);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +76,7 @@ class SignupPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 100),
-                  //logo
+                  //TODO: logo
                   // to be added later, text for now
                   Text(
                     'Sign Up',
@@ -72,12 +126,7 @@ class SignupPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   //sign in button
-                  SignupButton(
-                    onTap: signUp,
-                    // TODO: have sign up go back to login page
-                    // may be easier to have user sign in after sign up to
-                    // not have to duplicate flow (instructions, etc.)
-                  ),
+                  SignupButton(onTap: () => signUp(context)),
                   const SizedBox(height: 50),
                   //sign up
                   Row(
