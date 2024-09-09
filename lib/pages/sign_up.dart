@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:lookupp/components/signup_button.dart';
 import 'package:lookupp/components/dynamic_textfield.dart';
 import 'package:lookupp/services/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lookupp/components/dropdown.dart';
 
 /// This class is a StatelessWidget that builds the UI for the sign up page.
 class SignupPage extends StatefulWidget {
@@ -18,9 +17,11 @@ class SignupPageState extends State<SignupPage> {
   // Initialize text controllers for email, password, and password confirmation.
   //
   // These controllers will be used to get the text input from the user.
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passConfirmController = TextEditingController();
+  final roleController = TextEditingController();
 
   // Initialize Firebase Auth from AuthService class
   final AuthService _authService = AuthService();
@@ -102,6 +103,18 @@ class SignupPageState extends State<SignupPage> {
 
                   const SizedBox(height: 25),
 
+                  MyTextField(
+                    controller: nameController,
+                    hintText: 'Name',
+                    obscureText: false,
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  RoleDropdownMenu(controller: roleController),
+
+                  const SizedBox(height: 20),
+
                   //email field
                   MyTextField(
                     controller: emailController,
@@ -128,7 +141,7 @@ class SignupPageState extends State<SignupPage> {
                   //sign in button
                   //TODO: fix context issue
                   SignupButton(onTap: () => signUp(context)),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 25),
                   //sign up
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
