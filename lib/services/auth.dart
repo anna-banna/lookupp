@@ -1,26 +1,48 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import '../toast.dart';
 
-class AuthService {
-  Future<void> signup({required String email, required String password}) async {
+class FirebaseAuthService {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<User?> signUpWithEmailAndPassword(
+      String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential credential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return credential.user;
     } on FirebaseAuthException catch (e) {
-      String message = '';
-      if (e.code == 'weak-password') {
-        message = 'The password is too weak. Try another password.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An account already exists with that email.';
+      if (e.code == 'email-already-in-use') {
+        showToast(
+            message: 'The email address is already in use.',
+            backgroundColor: Colors.red);
       }
-      Fluttertoast.showToast(
-          msg: message,
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.SNACKBAR,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 14.0);
+      // else {
+      //   showToast(
+      //       message: 'An error occurred: ${e.code}',
+      //       backgroundColor: Colors.red);
+      // }
     }
+    return null;
+  }
+
+  Future<User?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      UserCredential credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return credential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        showToast(
+            message: 'Invalid email or password.', backgroundColor: Colors.red);
+      }
+      // else {
+      //   showToast(
+      //       message: 'An error occurred: ${e.code}',
+      //       backgroundColor: Colors.red);
+      // }
+    }
+    return null;
   }
 }

@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class MyTextField extends StatefulWidget {
   const MyTextField(
       {super.key,
-      required this.controller,
-      required this.hintText,
-      this.obscureText = false});
+      this.controller,
+      this.hintText,
+      this.obscureText = false,
+      this.validator});
 
-  final TextEditingController controller;
-  final String hintText;
+  final TextEditingController? controller;
+  final String? hintText;
   final bool obscureText;
+  final FormFieldValidator? validator;
 
   @override
   State<MyTextField> createState() => _MyTextFieldState();
@@ -28,9 +30,10 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
+      child: TextFormField(
           controller: widget.controller,
           obscureText: _obscureText,
+          validator: widget.validator,
           decoration: InputDecoration(
               suffixIcon: widget.obscureText
                   ? IconButton(

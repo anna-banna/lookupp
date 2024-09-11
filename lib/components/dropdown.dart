@@ -14,9 +14,13 @@ final List<String> roles = <String>[
   'Local Business'
 ];
 
+//TODO: add validator for dropdown
+// change to DropButtonFormField
+
 class RoleDropdownMenu extends StatefulWidget {
-  const RoleDropdownMenu({super.key, required this.controller});
+  const RoleDropdownMenu({super.key, required this.controller, this.validator});
   final TextEditingController controller;
+  final FormFieldValidator? validator;
 
   @override
   State<RoleDropdownMenu> createState() => _RoleDropdownMenuState();
@@ -32,7 +36,7 @@ class _RoleDropdownMenuState extends State<RoleDropdownMenu> {
       controller: widget.controller,
       hintText: 'Role',
       expandedInsets: const EdgeInsets.symmetric(horizontal: 25),
-      initialSelection: roles.first,
+      //TODO: add validator for dropdown? (revert to no)
       inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
