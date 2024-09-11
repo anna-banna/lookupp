@@ -162,6 +162,41 @@ class SignupPageState extends State<SignupPage> {
     String password = passwordController.text;
     String passConfirm = passConfirmController.text;
 
+    if (nameController.text.isEmpty) {
+      showToast(message: 'Please enter your name', backgroundColor: Colors.red);
+      setState(() {
+        isSignedUp = false;
+      });
+      return;
+    }
+
+    if (emailController.text.contains('@') == false ||
+        emailController.text.contains('.') == false) {
+      showToast(
+          message: 'Please enter a valid email', backgroundColor: Colors.red);
+      setState(() {
+        isSignedUp = false;
+      });
+      return;
+    }
+
+    if (roleController.text.isEmpty) {
+      showToast(message: 'Please select a role', backgroundColor: Colors.red);
+      setState(() {
+        isSignedUp = false;
+      });
+      return;
+    }
+
+    if (passwordController.text.isEmpty) {
+      showToast(
+          message: 'Please enter a password', backgroundColor: Colors.red);
+      setState(() {
+        isSignedUp = false;
+      });
+      return;
+    }
+
     if (password != passConfirm) {
       showToast(message: "Passwords do not match", backgroundColor: Colors.red);
       setState(() {
@@ -183,7 +218,7 @@ class SignupPageState extends State<SignupPage> {
       Navigator.pop(context);
     } else {
       showToast(
-          message: "Error occured. User is not created.",
+          message: "User is not created. Check all fields.",
           backgroundColor: Colors.red);
     }
   }

@@ -17,6 +17,11 @@ class FirebaseAuthService {
             message: 'The email address is already in use.',
             backgroundColor: Colors.red);
       }
+      if (e.code == 'weak-password') {
+        showToast(
+            message: 'The password provided is too weak.',
+            backgroundColor: Colors.red);
+      }
       // else {
       //   showToast(
       //       message: 'An error occurred: ${e.code}',

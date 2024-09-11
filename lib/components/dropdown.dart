@@ -14,9 +14,6 @@ final List<String> roles = <String>[
   'Local Business'
 ];
 
-//TODO: add validator for dropdown
-// change to DropButtonFormField
-
 class RoleDropdownMenu extends StatefulWidget {
   const RoleDropdownMenu({super.key, required this.controller, this.validator});
   final TextEditingController controller;
@@ -36,16 +33,17 @@ class _RoleDropdownMenuState extends State<RoleDropdownMenu> {
       controller: widget.controller,
       hintText: 'Role',
       expandedInsets: const EdgeInsets.symmetric(horizontal: 25),
-      //TODO: add validator for dropdown? (revert to no)
       inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
         ),
+        hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
       ),
       menuStyle: MenuStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(Colors.blueGrey[50]!),
+        backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+        elevation: WidgetStateProperty.all<double>(25),
       ),
       onSelected: (String? value) {
         // This is called when the user selects an item.
